@@ -1,0 +1,259 @@
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Sorting Visualization</title>
+
+	<link rel="stylesheet" type="text/css" href="sorting.css">
+    <link rel="stylesheet" type="text/css" href="popup5.css">
+</head>
+
+<body>
+    
+	<div class="main">
+		<h1>Sorting Visualizer</h1>
+		<div class="slider">
+			<div class="range">
+				<div class="slide"><label for="bars">ِArray Size</label> : <input id="bars" type="range" name="bars"
+						min="1" max="100" value="50" oninput="setup()" onchange="setup()">
+					<span id="ars"> </span></div>
+				<div class="slide"><label for="delay">Speed</label> : <input id="delay" type="range" name="delay"
+						min="0" max="1000" value="25" oninput="setup()" onchange="setup()">
+					<span id="speed"></span></div>
+			</div>
+			<div class="sorts">
+				
+				<input type="button" onclick="BubbleSort()" value="Bubble Sort">
+				<input type="button" onclick="SelectionSort()" value="Selection Sort">
+                <input type="button" onclick="InsertionSort()" value="Insertion Sort">
+                <input type="button" onclick="QuickSort()" value="Quick Sort">
+                <input type="button" onclick="MergeSort()" value="Merge Sort">
+                <input type="button" onclick="inputarrayopenPopup()" value="Custom Array Input">
+                <input type="button" onclick="reset()" value="Generate New Array">
+			</div>
+		
+		</div>
+	</div>
+	<div id="container">
+	</div>
+   
+    <div class="button-container">
+        <a href="pages/Bubbolsort.html" class="button">Bubbol sort</a>
+        <a href="pages/selectionsort.html" class="button">Selection Sort</a>
+        <a href="pages/insertionsort.html" class="button">Insertion Sort</a>
+        <a href="pages/mergesort.html" class="button">Merge Sort</a>
+        <a href="pages/Quicksort.html" class="button">Quick Sort</a>
+        <a href="performance.html" class="button">Performance matrix</a>
+        
+      </div>
+          <!-- Custome Input popups -->
+          <div id="popedupOverlay" class="overlay">
+            <div class="popup-container">
+              <div class="popup-header">
+                <h2>Custom Array Input</h2>
+                <span class="close-btn" onclick="inputarrayclosePopup()">&times;</span>
+              </div>
+              <div class="popup-body">
+                <p>Enter your array elements (comma-separated):</p>
+                <input type="text" id="arrayInput" placeholder="e.g. 5, 3, 9, 1, 7" />
+              </div>
+              <div class="popup-footer">
+                <button class="btn cancel-btn" onclick="inputarrayclosePopup()">Cancel</button>
+                <button class="btn submit-btn" onclick="submitArrayInput()">Submit</button>
+              </div>
+            </div>
+          </div>
+          
+      
+      <!-- Popup 1 -->
+      <div id="popup1" class="overlay">
+        <div class="popup-container popup-large">
+          <div class="popup-header">
+            <h2 id="popup1head">Pop-up 1</h2>
+            <span class="close-btn" onclick="closePopup(1)">&times;</span>
+          </div>
+          <div class="popup-body" id="popup1-body">
+            <p id="popup1">Merge Sort is a divide-and-conquer algorithm.</p>
+          </div>
+          <div class="popup-footer">
+            <button class="btn" onclick="nextPopup(1)">Next</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Popup 2 -->
+      <div id="popup2" class="overlay">
+        <div class="popup-container popup-larger backgroundclear">
+          <div class="popup-header">
+            <h2 id="popup2head">Pop-up 2</h2>
+            <span class="close-btn" onclick="closePopup(2)">&times;</span>
+          </div>
+          <div class="popup-body" >
+            <img id="popup2-body" src="mergesort.png" alt="Merge Sort" class="full-width-img">
+          </div>
+          <div class="popup-footer">
+            <button class="btn btn-secondary" onclick="previousPopup(1)">Back</button>
+            <button class="btn" onclick="nextPopup(2)">Next</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Popup 3 -->
+      <div id="popup3" class="overlay">
+        <div class="popup-container popup-larger backgroundclear">
+          <div class="popup-header">
+            <h2 id="popup3head">Pop-up 3</h2>
+            <span class="close-btn" onclick="closePopup(3)">&times;</span>
+          </div>
+          <div class="popup-body" >
+              <img  id="popup3-body" src="mergesortpsudocode.png" alt="Merge Sort"  height="100px"   class="full-width-img">
+          </div>
+          <div class="popup-footer">
+            <button class="btn btn-secondary" onclick="previousPopup(2)">Back</button>
+            <button class="btn" onclick="nextPopup(3)">Next</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Popup 4 -->
+      <div id="popup4" class="overlay">
+        <div class="popup-container popup-largest ">
+          <div class="popup-header">
+            <h2 id="popup4head">Pop-up 4</h2>
+            <span class="close-btn" onclick="closePopup(4)">&times;</span>
+          </div>
+          <div class="popup-body" id="popup4-body">
+              <ol>
+                   
+              </ol>
+          </div>
+          <div class="popup-footer">
+            <button class="btn btn-secondary" onclick="previousPopup(3)">Back</button>
+            <button class="btn" onclick="nextPopup(4)">Next</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Popup 5 -->
+      <div id="popup5" class="overlay">
+        <div class="popup-container popup-largest">
+          <div class="popup-header">
+            <h2 id="popup5head">Pop-up 5</h2>
+            <span class="close-btn" onclick="closePopup(5)">&times;</span>
+          </div>
+          <div class="popup-body" id="popup5-body">
+
+          <ol>
+                   
+              </ol>
+          </div>
+          <div class="popup-footer">
+            <button class="btn btn-secondary" onclick="previousPopup(4)">Back</button>
+            <button class="btn" onclick="closePopup(5)">Finish</button>
+          </div>
+        </div>
+      </div>
+      
+  <p>Input  During Runtime do not work here. </p>
+      <iframe
+frameBorder="0"
+height="450px"  
+src="https://onecompiler.com/embed/" 
+width="100%"
+></iframe>
+ <!-- Tabel of data  -->
+    <div id="tabelfordata">
+    <table class="metrics-table">
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="label">Number of Comparisons</td>
+                <td class="value" id="comparisons">0</td>
+            </tr>
+            <tr>
+                <td class="label">Number of Swaps</td>
+                <td class="value" id="swaps">0</td>
+            </tr>
+            <tr>
+                <td class="label">Number of Iterations</td>
+                <td class="value" id="iterations">0</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tabelfordata">
+    <table class="metrics-table">
+        <thead>
+            <tr>
+                <th>Sections </th>
+                <th>BubbleSort</th>
+                <th>InsertionSort</th>
+				<th>SelectionSort</th>
+                <th>MergeSort</th>
+				<th>QuickSort</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="label">Best Time complexciity</td>
+                <td class="value" id="comparisons">O(n)</td>
+				<td class="value" id="comparisons">O(n)</td>
+				<td class="value" id="comparisons">O(n<sup>2</sup>)</td>
+				<td class="value" id="comparisons">O(nlogn)</td>
+				<td class="value" id="comparisons">O(nlogn)</td>
+            </tr>
+            <tr>
+                <td class="label">Avg. Time complexcity</td>
+                <td class="value" id="comparisons">O(n<sup>2</sup>)</td>
+				<td class="value" id="comparisons">O(n<sup>2</sup>)</td>
+				<td class="value" id="comparisons">O(n<sup>2</sup>)</td>
+				<td class="value" id="comparisons">O(nlogn)</td>
+				<td class="value" id="comparisons">O(nlogn)</td>
+            </tr>
+            <tr>
+                <td class="label">Worst Time Complexcity</td>
+                <td class="value" id="comparisons">O(n<sup>2</sup>)</td>
+				<td class="value" id="comparisons">O(n<sup>2</sup>)</td>
+				<td class="value" id="comparisons">O(n<sup>2</sup>)</td>
+				<td class="value" id="comparisons">O(nlogn)</td>
+				<td class="value" id="comparisons">O(n<sup>2</sup>)</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+	
+	
+</div>
+<script >
+// Function to open the popup
+function inputarrayopenPopup() {
+  const popupOverlay = document.getElementById("popedupOverlay");
+  popupOverlay.style.display = "flex"; // Display the popup
+}
+
+// Function to close the popup
+function inputarrayclosePopup() {
+  const popupOverlay = document.getElementById("popedupOverlay");
+  popupOverlay.style.display = "none"; // Hide the popup
+}
+
+
+</script>
+	<script src="sorting.js"></script>
+  <script src="popup.js"></script>
+
+
+</body>
+
+</html>

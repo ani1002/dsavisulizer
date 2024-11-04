@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whiteboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body, html {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      width: 500px;
+      height: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      border: 2px solid #000;
+      background-color: #f3f3f3;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    canvas {
+      border: 1px solid #000;
+      cursor: crosshair;
+    }
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .toolbar-bottom {
+      margin-top: 10px;
+    }
+    button, input {
+      padding: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      transition: background-color 0.3s;
+    }
+    button:hover, input:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Top Toolbar -->
+    <div class="toolbar">
+      <button id="clearCanvas">Clear</button>
+      <button id="eraser">Eraser</button>
+      <input type="color" id="bgColor" value="#ffffff">
+    </div>
+    
+    <!-- Whiteboard -->
+    <canvas id="whiteboard" width="500" height="400"></canvas>
+
+    <!-- Bottom Toolbar -->
+    <div class="toolbar toolbar-bottom">
+      <button id="undo">Undo</button>
+      <button id="download">Download</button>
+      <button id="draw">Draw</button>
+    </div>
+
+  </div>
+
+  <script>
+    const canvas = document.getElementById('whiteboard');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+    let isErasing = false;
+    let drawingHistory = [];
+    let isDrawingMode = true; // To track draw/erase mode
+
+    // Set initial canvas background color
+    ctx.fillStyle = document.getElementById('bgColor').value;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Event listeners for drawing/erasing
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+
+    function startDrawing(e) {
+      isDrawing = true;
+      drawingHistory.push(ctx.getImageData(0, 0, canvas.width, canvas.height)); // Save the current canvas state for undo
+      ctx.beginPath();
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+
+      if (isErasing) {
+        ctx.strokeStyle = ctx.fillStyle; // Erase with the current background color
+      } else {
+        ctx.strokeStyle = isDrawingMode ? '#000000' : ctx.fillStyle; // Default draw with black, or current bg for erase
+      }
+
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX, e.offsetY);
+    }
+
+    function stopDrawing() {
+      isDrawing = false;
+      ctx.beginPath();
+    }
+
+    // Clear canvas
+    document.getElementById('clearCanvas').addEventListener('click', () => {
+      ctx.fillStyle = document.getElementById('bgColor').value;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    });
+
+    // Eraser toggle
+    document.getElementById('eraser').addEventListener('click', () => {
+      isErasing = true;
+      isDrawingMode = false; // Set to erase mode
+    });
+
+    // Undo functionality
+    document.getElementById('undo').addEventListener('click', () => {
+      if (drawingHistory.length > 0) {
+        const prevState = drawingHistory.pop();
+        ctx.putImageData(prevState, 0, 0);
+      }
+    });
+
+    // Download canvas as a JPG
+    document.getElementById('download').addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.download = 'whiteboard.jpg';
+      link.href = canvas.toDataURL('image/jpeg');
+      link.click();
+    });
+
+    // Draw mode toggle
+    document.getElementById('draw').addEventListener('click', () => {
+      isErasing = false;
+      isDrawingMode = true; // Set to draw mode
+    });
+
+    // Change background color
+    document.getElementById('bgColor').addEventListener('input', (e) => {
+      ctx.fillStyle = e.target.value;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    });
+  </script>
+
+</body>
+</html>

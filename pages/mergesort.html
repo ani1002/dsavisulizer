@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Editor with Tabs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="newpracticestyle.css">
+</head>
+<body>
+     <h1>Merge Sort</h1>
+  <div class="code-editor">
+    <div class="tab-menu">
+      <button class="tab-button active" data-lang="python">Python</button>
+      <button class="tab-button" data-lang="java">Java</button>
+      <button class="tab-button" data-lang="c">C</button>
+      <button class="tab-button" data-lang="cpp">C++</button>
+      <button class="tab-button" data-lang="js">JS</button>
+    </div>
+
+    <div class="tab-content" id="python" style="display: block;">
+        <pre><code class="language-python">
+          # MergeSort in Python
+
+
+          def mergeSort(array):
+              if len(array) > 1:
+          
+                  #  r is the point where the array is divided into two subarrays
+                  r = len(array)//2
+                  L = array[:r]
+                  M = array[r:]
+          
+                  # Sort the two halves
+                  mergeSort(L)
+                  mergeSort(M)
+          
+                  i = j = k = 0
+          
+                  # Until we reach either end of either L or M, pick larger among
+                  # elements L and M and place them in the correct position at A[p..r]
+                  while i < len(L) and j < len(M):
+                      if L[i] < M[j]:
+                          array[k] = L[i]
+                          i += 1
+                      else:
+                          array[k] = M[j]
+                          j += 1
+                      k += 1
+          
+                  # When we run out of elements in either L or M,
+                  # pick up the remaining elements and put in A[p..r]
+                  while i < len(L):
+                      array[k] = L[i]
+                      i += 1
+                      k += 1
+          
+                  while j < len(M):
+                      array[k] = M[j]
+                      j += 1
+                      k += 1
+          
+          
+          # Print the array
+          def printList(array):
+              for i in range(len(array)):
+                  print(array[i], end=" ")
+              print()
+          
+          
+          # Driver program
+          if __name__ == '__main__':
+              array = [6, 5, 12, 10, 9, 1]
+          
+              mergeSort(array)
+          
+              print("Sorted array is: ")
+              printList(array)
+                      </code></pre>
+    </div>
+
+    <div class="tab-content" id="java">
+        <pre><code class="language-java">
+          import java.util.Arrays;
+
+          // Merge sort in Java
+          
+          class Main {
+          
+            // Merge two sub arrays L and M into array
+            void merge(int array[], int p, int q, int r) {
+          
+              int n1 = q - p + 1;
+              int n2 = r - q;
+          
+              int L[] = new int[n1];
+              int M[] = new int[n2];
+          
+              // fill the left and right array
+              for (int i = 0; i < n1; i++)
+                L[i] = array[p + i];
+              for (int j = 0; j < n2; j++)
+                M[j] = array[q + 1 + j];
+          
+              // Maintain current index of sub-arrays and main array
+              int i, j, k;
+              i = 0;
+              j = 0;
+              k = p;
+          
+              // Until we reach either end of either L or M, pick larger among
+              // elements L and M and place them in the correct position at A[p..r]
+              // for sorting in descending
+              // use if(L[i] >= <[j])
+              while (i < n1 && j < n2) {
+                if (L[i] <= M[j]) {
+                  array[k] = L[i];
+                  i++;
+                } else {
+                  array[k] = M[j];
+                  j++;
+                }
+                k++;
+              }
+          
+              // When we run out of elements in either L or M,
+              // pick up the remaining elements and put in A[p..r]
+              while (i < n1) {
+                array[k] = L[i];
+                i++;
+                k++;
+              }
+          
+              while (j < n2) {
+                array[k] = M[j];
+                j++;
+                k++;
+              }
+            }
+          
+            // Divide the array into two sub arrays, sort them and merge them
+            void mergeSort(int array[], int left, int right) {
+              if (left < right) {
+          
+                // m is the point where the array is divided into two sub arrays
+                int mid = (left + right) / 2;
+          
+                // recursive call to each sub arrays
+                mergeSort(array, left, mid);
+                mergeSort(array, mid + 1, right);
+          
+                // Merge the sorted sub arrays
+                merge(array, left, mid, right);
+              }
+            }
+          
+            public static void main(String args[]) {
+          
+              // created an unsorted array
+              int[] array = { 6, 5, 12, 10, 9, 1 };
+          
+              Main ob = new Main();
+          
+              // call the method mergeSort()
+              // pass argument: array, first index and last index
+              ob.mergeSort(array, 0, array.length - 1);
+          
+              System.out.println("Sorted Array:");
+              System.out.println(Arrays.toString(array));
+            }
+          }
+
+
+                      </code></pre>
+    </div>
+
+    <div class="tab-content" id="c">
+        <pre><code class="language-cpp">
+         
+  
+          // Merge sort in C
+
+          #include  &lt;stdio.h&gt;
+
+// Merge two subarrays L and M into arr
+void merge(int arr[], int p, int q, int r) {
+
+  // Create L ← A[p..q] and M ← A[q+1..r]
+  int n1 = q - p + 1;
+  int n2 = r - q;
+
+  int L[n1], M[n2];
+
+  for (int i = 0; i < n1; i++)
+    L[i] = arr[p + i];
+  for (int j = 0; j < n2; j++)
+    M[j] = arr[q + 1 + j];
+
+  // Maintain current index of sub-arrays and main array
+  int i, j, k;
+  i = 0;
+  j = 0;
+  k = p;
+
+  // Until we reach either end of either L or M, pick larger among
+  // elements L and M and place them in the correct position at A[p..r]
+  while (i < n1 && j < n2) {
+    if (L[i] <= M[j]) {
+      arr[k] = L[i];
+      i++;
+    } else {
+      arr[k] = M[j];
+      j++;
+    }
+    k++;
+  }
+
+  // When we run out of elements in either L or M,
+  // pick up the remaining elements and put in A[p..r]
+  while (i < n1) {
+    arr[k] = L[i];
+    i++;
+    k++;
+  }
+
+  while (j < n2) {
+    arr[k] = M[j];
+    j++;
+    k++;
+  }
+}
+
+// Divide the array into two subarrays, sort them and merge them
+void mergeSort(int arr[], int l, int r) {
+  if (l < r) {
+
+    // m is the point where the array is divided into two subarrays
+    int m = l + (r - l) / 2;
+
+    mergeSort(arr, l, m);
+    mergeSort(arr, m + 1, r);
+
+    // Merge the sorted subarrays
+    merge(arr, l, m, r);
+  }
+}
+
+// Print the array
+void printArray(int arr[], int size) {
+  for (int i = 0; i < size; i++)
+    printf("%d ", arr[i]);
+  printf("\n");
+}
+
+// Driver program
+int main() {
+  int arr[] = {6, 5, 12, 10, 9, 1};
+  int size = sizeof(arr) / sizeof(arr[0]);
+
+  mergeSort(arr, 0, size - 1);
+
+  printf("Sorted array: \n");
+  printArray(arr, size);
+}
+
+
+                      </code></pre>
+    </div>
+
+    <div class="tab-content" id="cpp">
+        <pre><code class="language-cpp">
+          
+          // Merge sort in C++
+          #include  &lt;iostream&gt;
+          #include  &lt;iostream&gt;
+          #include  &lt;vector&gt;
+          using namespace std;
+          #include &lt;bits/stdc++.h&gt;
+          using namespace std;
+          
+          // Merges two subarrays of arr[].
+          // First subarray is arr[left..mid]
+          // Second subarray is arr[mid+1..right]
+          void merge(vector&lt;int&gt;& arr, int left, 
+                               int mid, int right)
+          {
+              int n1 = mid - left + 1;
+              int n2 = right - mid;
+          
+              // Create temp vectors
+              vector&lt;int&gt; L(n1), R(n2);
+          
+              // Copy data to temp vectors L[] and R[]
+              for (int i = 0; i < n1; i++)
+                  L[i] = arr[left + i];
+              for (int j = 0; j < n2; j++)
+                  R[j] = arr[mid + 1 + j];
+          
+              int i = 0, j = 0;
+              int k = left;
+          
+              // Merge the temp vectors back 
+              // into arr[left..right]
+              while (i < n1 && j < n2) {
+                  if (L[i] <= R[j]) {
+                      arr[k] = L[i];
+                      i++;
+                  }
+                  else {
+                      arr[k] = R[j];
+                      j++;
+                  }
+                  k++;
+              }
+          
+              // Copy the remaining elements of L[], 
+              // if there are any
+              while (i < n1) {
+                  arr[k] = L[i];
+                  i++;
+                  k++;
+              }
+          
+              // Copy the remaining elements of R[], 
+              // if there are any
+              while (j < n2) {
+                  arr[k] = R[j];
+                  j++;
+                  k++;
+              }
+          }
+          
+          // begin is for left index and end is right index
+          // of the sub-array of arr to be sorted
+          void mergeSort(vector &lt;int&gt; arr, int left, int right)
+          {
+              if (left >= right)
+                  return;
+          
+              int mid = left + (right - left) / 2;
+              mergeSort(arr, left, mid);
+              mergeSort(arr, mid + 1, right);
+              merge(arr, left, mid, right);
+          }
+          
+          // Function to print a vector
+          void printVector(vector&lt;int&gt;& arr)
+          {
+              for (int i = 0; i < arr.size(); i++)
+                  cout << arr[i] << " ";
+              cout << endl;
+          }
+          
+          // Driver code
+          int main()
+          {
+              vector&lt;int&gt; arr = { 12, 11, 13, 5, 6, 7 };
+              int n = arr.size();
+          
+              cout << "Given vector is \n";
+              printVector(arr);
+          
+              mergeSort(arr, 0, n - 1);
+          
+              cout << "\nSorted vector is \n";
+              printVector(arr);
+              return 0;
+          }
+          
+          
+            
+                      </code></pre>
+    </div>
+
+    <div class="tab-content" id="js">
+      <pre><code class="language-js">
+        function merge(arr, left, mid, right) {
+          const n1 = mid - left + 1;
+          const n2 = right - mid;
+      
+          // Create temp arrays
+          const L = new Array(n1);
+          const R = new Array(n2);
+      
+          // Copy data to temp arrays L[] and R[]
+          for (let i = 0; i < n1; i++)
+              L[i] = arr[left + i];
+          for (let j = 0; j < n2; j++)
+              R[j] = arr[mid + 1 + j];
+      
+          let i = 0, j = 0;
+          let k = left;
+      
+          // Merge the temp arrays back into arr[left..right]
+          while (i < n1 && j < n2) {
+              if (L[i] <= R[j]) {
+                  arr[k] = L[i];
+                  i++;
+              } else {
+                  arr[k] = R[j];
+                  j++;
+              }
+              k++;
+          }
+      
+          // Copy the remaining elements of L[], if there are any
+          while (i < n1) {
+              arr[k] = L[i];
+              i++;
+              k++;
+          }
+      
+          // Copy the remaining elements of R[], if there are any
+          while (j < n2) {
+              arr[k] = R[j];
+              j++;
+              k++;
+          }
+      }
+      
+      function mergeSort(arr, left, right) {
+          if (left >= right)
+              return;
+      
+          const mid = Math.floor(left + (right - left) / 2);
+          mergeSort(arr, left, mid);
+          mergeSort(arr, mid + 1, right);
+          merge(arr, left, mid, right);
+      }
+      
+      function printArray(arr) {
+          console.log(arr.join(" "));
+      }
+      
+      // Driver code
+      const arr = [12, 11, 13, 5, 6, 7];
+      console.log("Given array is");
+      printArray(arr);
+      
+      mergeSort(arr, 0, arr.length - 1);
+      
+      console.log("\nSorted array is");
+      printArray(arr);
+              
+                        </code></pre>
+      </div>
+                    
+  </div>
+
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+  <script >
+
+const tabButtons = document.querySelectorAll('.tab-button');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    // Remove active class from all buttons
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+    
+    // Hide all tab content
+    tabContents.forEach(content => content.style.display = 'none');
+    
+    // Activate the clicked button
+    button.classList.add('active');
+    
+    // Show the related tab content
+    const lang = button.getAttribute('data-lang');
+    document.getElementById(lang).style.display = 'block';
+  });
+});
+hljs.highlightAll();
+  </script>
+</body>
+</html>
